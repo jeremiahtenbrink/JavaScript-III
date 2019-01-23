@@ -27,7 +27,7 @@ class GameObject {
 	static destroy() {
 		return "Object was removed from the game."
 	}
-};
+}
 
 /*
   === CharacterStats ===
@@ -45,7 +45,7 @@ class CharacterStats extends GameObject {
 	}
 	
 	takeDamage() {
-		return `${ this.name } took damage.`
+		console.log( `${ this.name } took damage.` );
 	}
 }
 
@@ -70,6 +70,10 @@ class Humanoid extends CharacterStats {
 	
 	greet() {
 		return `${ this.name } offers a greeting in ${ this.language }.`;
+	}
+	
+	usesWeapon(weaponNumber, damageDelt) {
+		console.log(`${this.name} uses ${this.weapons[weaponNumber -1]} and deals ${damageDelt} damage.`);
 	}
 	
 }
@@ -145,5 +149,79 @@ console.log( GameObject.destroy() ); // Sir Mustachio was removed from the game.
 
 // Stretch task:
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
-// * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
+// * Give the Hero and Villains different methods that could be used to remove health points from objects which could
+// result in destruction if health gets to 0 or drops below 0;
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+class Hero extends Humanoid {
+	constructor(object){
+		super( object );
+	}
+	removeHealthPoints(amount) {
+		this.healthPoints = this.healthPoints - (amount/2);
+		console.log(this.takeDamage());
+		console.log(`${this.name} has ${this.healthPoints} remaining.`);
+		if (this.healthPoints <= 0){
+			console.log(GameObject.destroy());
+			console.log("Villain has won the battle.")
+		}
+	}
+	
+}
+
+class Villain extends Humanoid {
+	constructor(object){
+		super( object );
+	}
+	removeHealthPoints(amount) {
+		this.healthPoints = this.healthPoints - amount;
+		console.log(this.takeDamage());
+		console.log(`${this.name} has ${this.healthPoints} remaining.`);
+		if (this.healthPoints <= 0){
+			console.log(GameObject.destroy());
+			console.log("Hero has won the battle.");
+		}
+	}
+	
+}
+
+const hero = new Hero( {
+	createdAt: new Date(),
+	dimensions: {
+		length: 2,
+		width: 2,
+		height: 2,
+	},
+	healthPoints: 15,
+	name: 'Sir Mustachio',
+	team: 'The Round Table',
+	weapons: [
+		'Giant Sword',
+		'Shield',
+	],
+	language: 'Common Tongue',
+});
+
+const villain = new Villain({
+	createdAt: new Date(),
+	dimensions: {
+		length: 1,
+		width: 2,
+		height: 4,
+	},
+	healthPoints: 10,
+	name: 'Lilith',
+	team: 'Forest Kingdom',
+	weapons: [
+		'Bow',
+		'Dagger',
+	],
+	language: 'Elvish',
+});
+
+hero.usesWeapon(1, 5);
+villain.removeHealthPoints(5);
+villain.usesWeapon(1, 5);
+hero.removeHealthPoints(5);
+hero.usesWeapon(2, 5);
+villain.removeHealthPoints(5);
