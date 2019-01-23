@@ -19,7 +19,7 @@
 
 class GameObject {
 	constructor( createdAt, dimensions ) {
-		debugger;
+	
 		this.dimensions = dimensions;
 		this.createdAt = createdAt;
 	}
@@ -61,7 +61,7 @@ class CharacterStats extends GameObject {
 
 class Humanoid extends CharacterStats {
 	constructor( { createdAt, dimensions, healthPoints, name, team, weapons, language} ) {
-		debugger;
+	
 		super( createdAt, dimensions, healthPoints, name );
 		this.team = team;
 		this.weapons = weapons;
